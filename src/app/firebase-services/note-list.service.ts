@@ -93,7 +93,7 @@ export class NoteListService {
       });
     });
    }  */
-    subNotesList() {
+    /* subNotesList() {
       let ref = collection(this.firestore, "notes/dELoQAQYt4J2nV1fvzu8/notesExtra");
       const q = query(ref, limit(100));
       return onSnapshot(q, (list) => {
@@ -106,7 +106,27 @@ export class NoteListService {
         });
         console.log('Normal notes after filtering:', this.normalNotes);
       });
-    }
+    } */
+      subNotesList() {
+        const q = query(this.getNotesRef(), limit(100));
+        return onSnapshot(q, (list) => {
+          this.normalNotes = [];
+          list.forEach((element) => {
+            this.normalNotes.push(this.setNoteObject(element.data(), element.id));
+          });
+          list.docChanges().forEach((change) => {
+            if (change.type === 'added') {
+              console.log('New note: ', change.doc.data());
+            }
+            if (change.type === 'modified') {
+              console.log('Modified note: ', change.doc.data());
+            }
+            if (change.type === 'removed') {
+              console.log('Removed note: ', change.doc.data());
+            }
+          });
+        });
+      }
     
 
   subMarkedNotesList() {
