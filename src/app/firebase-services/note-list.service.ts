@@ -83,8 +83,8 @@ export class NoteListService {
     });
   }
 
-  subNotesList() {
-    let ref = collection(this.firestore, "notes/K5tQEmdqtLxa8B3VwkhX/notesExtra");
+  /* subNotesList() {
+    let ref = collection(this.firestore, "notes/dELoQAQYt4J2nV1fvzu8/notesExtra");
     const q = query(ref, limit(100));
     return onSnapshot(q, (list) => {
       this.normalNotes = [];
@@ -92,7 +92,22 @@ export class NoteListService {
         this.normalNotes.push(this.setNoteObject(element.data(), element.id));
       });
     });
-  }
+   }  */
+    subNotesList() {
+      let ref = collection(this.firestore, "notes/dELoQAQYt4J2nV1fvzu8/notesExtra");
+      const q = query(ref, limit(100));
+      return onSnapshot(q, (list) => {
+        this.normalNotes = [];
+        list.forEach(element => {
+          const note = this.setNoteObject(element.data(), element.id);
+          if (note.type === 'note' && !note.marked) {
+            this.normalNotes.push(note);
+          }
+        });
+        console.log('Normal notes after filtering:', this.normalNotes);
+      });
+    }
+    
 
   subMarkedNotesList() {
     const q = query(this.getNotesRef(), where("marked", "==", true), limit(100));

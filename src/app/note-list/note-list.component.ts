@@ -25,6 +25,7 @@ export class NoteListComponent {
   getList(): Note[]{ 
     if(this.status == 'notes'){
       if(this.favFilter == 'all'){
+        console.log('Loading normal notes:', this.noteService.normalNotes);
         return this.noteService.normalNotes;
       }else {
         return this.noteService.normalMarkedNotes;
@@ -54,7 +55,7 @@ export class NoteListComponent {
 
 
 
-  getDummyData(): Note[] {
+  /* getDummyData(): Note[] {
     return [
       {
         id: "21sasd561dd4sdf",
@@ -91,6 +92,6 @@ export class NoteListComponent {
         marked: true,
       }
     ];
-  }
+  } */
 
 }
